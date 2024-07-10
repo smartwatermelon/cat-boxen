@@ -1,0 +1,31 @@
+#!/bin/bash -eu
+set -o pipefail
+
+###############
+## cat-boxen-demo
+##
+## a script to run the cat-boxen tool in repeating demo mode
+##
+## by andrew rich <arich@slack-corp.com> and lydia joslin <ljoslin@slack-corp.com>
+## for slack day 2018
+##
+###############
+
+# does the cat-boxen tool exist in the current directory?
+pushd "$( dirname "$0" )" > /dev/null
+if [[ ! -f ./cat-boxen ]]; then
+  echo "No cat box found!"
+  exit 1
+fi  # if -f ./cat-boxen
+
+# loop until keypress
+while true; do
+  clear
+  ./cat-boxen
+  echo 'The cat will repeat in 8 seconds unless you startle it!'
+  if read -r -N 1 -t 5; then
+    break
+  fi
+done
+
+popd > /dev/null
